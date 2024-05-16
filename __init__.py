@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -45,13 +45,9 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('home'))
+            return redirect(url_for('dashboard'))  # Redirect to dashboard after login
         else:
-            # Adding a print statement to debug flash messages
-            print('Invalid login attempt for username:', form.username.data)
-            flash('Invalid username or password')
-            # Additional print to confirm flash message is set
-            print('Flash message set for invalid login attempt')
+            flash('Invalid username or password', 'error')
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -80,6 +76,12 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    # This page is only accessible to authenticated users
+    return render_template('dashboard.html')
 
 # Test route to trigger flash message
 @app.route('/test_flash')
