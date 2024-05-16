@@ -2,7 +2,8 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm  # Changed from relative to absolute import
+from flask_migrate import Migrate
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -13,6 +14,9 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 
 # Initialize the database
 db = SQLAlchemy(app)
+
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
 
 # Initialize the login manager
 login_manager = LoginManager()
