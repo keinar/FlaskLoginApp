@@ -77,6 +77,12 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+# Test route to trigger flash message
+@app.route('/test_flash')
+def test_flash():
+    flash('This is a test flash message!', 'info')
+    return redirect(url_for('home'))
+
 # Check if the script is the main application and run it
 if __name__ == '__main__':
     db.create_all()
