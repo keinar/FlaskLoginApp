@@ -47,7 +47,11 @@ def login():
             login_user(user)
             return redirect(url_for('home'))
         else:
+            # Adding a print statement to debug flash messages
+            print('Invalid login attempt for username:', form.username.data)
             flash('Invalid username or password')
+            # Additional print to confirm flash message is set
+            print('Flash message set for invalid login attempt')
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
