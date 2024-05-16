@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegistrationForm  # Changed from relative to absolute import
+from forms import LoginForm, RegistrationForm  # Changed to absolute import
 from flask_migrate import Migrate
 
 # Initialize the Flask application
@@ -54,11 +54,16 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
+        existing_user = User.query.filter_by(username=form.username.data).first()
+        if existing_user is None:
+            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            new_user = User(username=form.username.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created successfully!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Username already exists.', 'error')
     return render_template('register.html', form=form)
 
 @app.route('/logout')
