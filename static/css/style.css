@@ -42,3 +42,30 @@ footer {
     text-align: center;
     padding: 10px 0;
 }
+
+/* Styles for flash messages */
+.flash-error, .flash-info, .flash-warning {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.flash-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.flash-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.flash-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
