@@ -45,7 +45,8 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('dashboard'))  # Redirect to dashboard after login
+            # Redirect to image page after login
+            return redirect(url_for('image_page'))
         else:
             flash('Invalid username or password', 'error')
     return render_template('login.html', form=form)
@@ -61,7 +62,8 @@ def register():
             try:
                 db.session.add(new_user)
                 db.session.commit()
-                flash('Account created successfully!', 'success')
+                # Display success message after registration
+                flash('Account created successfully! Please log in.', 'success')
                 return redirect(url_for('login'))
             except Exception as e:
                 db.session.rollback()
@@ -82,6 +84,12 @@ def logout():
 def dashboard():
     # This page is only accessible to authenticated users
     return render_template('dashboard.html')
+
+@app.route('/image_page')
+@login_required
+def image_page():
+    # This page displays an image after a successful login
+    return render_template('image.html')
 
 # Test route to trigger flash message
 @app.route('/test_flash')
