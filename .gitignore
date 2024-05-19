@@ -1,2 +1,5 @@
 # SQLite database file
 users.db
+
+# Virtual environment
+venv/
