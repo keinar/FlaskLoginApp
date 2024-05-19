@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5001"
     volumes:
       - .:/usr/src/app
       - "./data:/usr/src/app/data"
@@ -12,4 +12,4 @@ services:
       - FLASK_APP=__init__.py
       - FLASK_ENV=development  # Set to development to disable caching of templates and static files
       - SECRET_KEY=37d6607c8bf8249614d28606e34a2bd6a2ea8916675751f6
-    command: gunicorn -w 4 -b 0.0.0.0:5000 __init__:app
+    command: gunicorn -w 4 -b 0.0.0.0:5001 __init__:app
