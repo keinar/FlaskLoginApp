@@ -65,6 +65,7 @@ def register():
     if form.validate_on_submit():
         existing_user = User.query.filter_by(username=form.username.data).first()
         if existing_user is None:
+            # Corrected hash method to 'sha256'
             hashed_password = generate_password_hash(form.password.data, method='sha256')
             new_user = User(username=form.username.data, password=hashed_password)
             try:
@@ -107,5 +108,6 @@ def test_flash():
 
 # Check if the script is the main application and run it
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True, host='0.0.0.0', port=5001)
