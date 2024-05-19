@@ -99,11 +99,6 @@ def logout():
 
 @app.route('/image')
 @login_required
-def dashboard():
-    # This page is only accessible to authenticated users
-    return render_template('image.html')
-
-@app.route('/image')
 def image():
     s3 = boto3.client('s3')
     bucket_name = "test-keinar"
