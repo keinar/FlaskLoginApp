@@ -53,7 +53,7 @@ def login():
             login_user(user)
             app.logger.info(f'User {user.username} logged in successfully.')
             # Redirect to image page after login
-            return redirect(url_for('image_page'))
+            return redirect(url_for('image'))
         else:
             flash('Invalid username or password', 'error')
             app.logger.warning(f'Failed login attempt for username: {form.username.data}')
