@@ -17,6 +17,8 @@ EXPOSE 5001
 # Define environment variable
 ENV FLASK_APP=__init__.py
 ENV FLASK_RUN_HOST=0.0.0.0
+# Set PYTHONPATH to include the directory where 'forms' module is located
+ENV PYTHONPATH=/usr/src/app
 
 # Run the entrypoint script when the container launches
 ENTRYPOINT ["./entrypoint.sh"]
