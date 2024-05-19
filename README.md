@@ -34,7 +34,7 @@ Once the build is complete, you can run the application:
 docker-compose up
 ```
 
-The application will be available at `http://localhost:5000`.
+The application will be available at `http://localhost:5001`.
 
 ### Environment Variables
 
@@ -56,15 +56,7 @@ SECRET_KEY=your-random-string-here
 
 ### Database Initialization
 
-Before you can use the application, you'll need to create the database tables. You can do this by running the following commands:
-
-```bash
-docker-compose exec web flask db init
-docker-compose exec web flask db migrate
-docker-compose exec web flask db upgrade
-```
-
-This will initialize the database with the necessary tables for the application.
+The database initialization is automated through the `entrypoint.sh` script. When you run the application with `docker-compose up`, the script will initialize the database with the necessary tables for the application.
 
 ## Usage
 
