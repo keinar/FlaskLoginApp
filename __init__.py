@@ -3,7 +3,8 @@ from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegistrationForm  # Corrected import statement
+# Corrected import statement
+from forms import LoginForm, RegistrationForm
 from flask_migrate import Migrate
 import os
 import boto3
@@ -16,6 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Configure the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+# Load SECRET_KEY from environment variable
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key')
 
 # Initialize the database
@@ -49,11 +51,18 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
-            app.logger.info(f'User {user.username} logged in successfully.')
-            # Redirect to image page after login
-            return redirect(url_for('image'))
+        if user:
+            # Debugging: Check if the password hash matches
+            password_check = check_password_hash(user.password, form.password.data)
+            app.logger.debug(f'Password check for user {form.username.data}: {password_check}')
+            if password_check:
+                login_user(user)
+                app.logger.info(f'User {user.username} logged in successfully.')
+                # Redirect to image page after login
+                return redirect(url_for('image_page'))
+            else:
+                flash('Invalid username or password', 'error')
+                app.logger.warning(f'Failed login attempt for username: {form.username.data}')
         else:
             flash('Invalid username or password', 'error')
             app.logger.warning(f'Failed login attempt for username: {form.username.data}')
@@ -65,7 +74,8 @@ def register():
     if form.validate_on_submit():
         existing_user = User.query.filter_by(username=form.username.data).first()
         if existing_user is None:
-            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            # Corrected hash method to 'pbkdf2:sha256'
+            hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
             new_user = User(username=form.username.data, password=hashed_password)
             try:
                 db.session.add(new_user)
@@ -113,5 +123,6 @@ def test_flash():
 
 # Check if the script is the main application and run it
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True, host='0.0.0.0', port=5001)
