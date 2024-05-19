@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
@@ -8,6 +9,9 @@ import os
 
 # Initialize the Flask application
 app = Flask(__name__)
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Configure the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -46,10 +50,12 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
+            app.logger.info(f'User {user.username} logged in successfully.')
             # Redirect to image page after login
             return redirect(url_for('image_page'))
         else:
             flash('Invalid username or password', 'error')
+            app.logger.warning(f'Failed login attempt for username: {form.username.data}')
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
