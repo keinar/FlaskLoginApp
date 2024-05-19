@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm
 from flask_migrate import Migrate
 import os
+import boto3
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -102,11 +103,17 @@ def dashboard():
     # This page is only accessible to authenticated users
     return render_template('dashboard.html')
 
-@app.route('/image_page')
-@login_required
-def image_page():
-    # This page displays an image after a successful login
-    return render_template('image.html')
+@app.route('/image')
+def image():
+    s3 = boto3.client('s3')
+    bucket_name = "test-keinar"
+    image_file = "me.png"
+    image_url = s3.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': bucket_name, 'Key': image_file},
+        ExpiresIn=3600  # URL expires in 1 hour
+    )
+    return render_template('image.html', image_url=image_url)
 
 # Test route to trigger flash message
 @app.route('/test_flash')
