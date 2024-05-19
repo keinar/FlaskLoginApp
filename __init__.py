@@ -4,13 +4,14 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm  # Corrected import statement
 from flask_migrate import Migrate
+import os
 
 # Initialize the Flask application
 app = Flask(__name__)
 
 # Configure the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SECRET_KEY'] = '5334a160226f3050e45f0031018cbba4686db3a3997eb372'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key')
 
 # Initialize the database
 db = SQLAlchemy(app)
