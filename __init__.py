@@ -108,6 +108,7 @@ def image():
         return Response('Internal Server Error', status=500)
 
 
+# Route to serve the image
 @app.route('/serve_image')
 @login_required
 def serve_image():
