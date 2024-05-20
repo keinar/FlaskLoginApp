@@ -30,7 +30,7 @@ sudo systemctl enable docker
 
 # Add your user to the docker group
 sudo usermod -a -G docker ec2-user
-exit
+docker --version
 ```
 After exiting, reconnect to your EC2 instance for the group changes to take effect.
 
