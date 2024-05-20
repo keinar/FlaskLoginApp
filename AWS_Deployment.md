@@ -10,7 +10,7 @@ This README provides instructions for deploying the Flask application on an EC2 
 
 ## Step 1: Setting Up EC2 Instance
 
-1. Open an EC2 instance based on Amazon Linux 2.
+1. Open an EC2 instance based on Amazon Linux 2 - with Inbound Security Group Rule of custom TCP on port 5001.
 2. Connect to your EC2 instance via SSH.
 
 ### Install Docker, Docker Compose, and Git
@@ -30,7 +30,7 @@ sudo systemctl enable docker
 
 # Add your user to the docker group
 sudo usermod -a -G docker ec2-user
-exit
+docker --version
 ```
 After exiting, reconnect to your EC2 instance for the group changes to take effect.
 
