@@ -33,7 +33,8 @@ sudo usermod -a -G docker ec2-user
 exit
 ```
 After exiting, reconnect to your EC2 instance for the group changes to take effect.
-```
+
+```sh
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
@@ -44,9 +45,10 @@ docker-compose --version
 # Install Git
 sudo yum install git -y
 ```
+
 ## Clone the Repository and Run the Application
 
-```
+```sh
 # Clone your repository
 git clone https://github.com/your-username/your-repo.git
 
@@ -57,6 +59,7 @@ cd your-repo
 docker-compose up --build
 
 ```
+
 ## Step 2: Setting Up S3 Bucket
 1. Open the AWS Management Console and navigate to S3.
 2. Create a new bucket (e.g., test-keinar).
@@ -66,7 +69,7 @@ docker-compose up --build
 ## Configure Bucket Policy
 To make the image publicly accessible, you need to set the appropriate bucket policy. Go to the Permissions tab of your bucket and add the following bucket policy:
 
-```
+```sh
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -81,14 +84,16 @@ To make the image publicly accessible, you need to set the appropriate bucket po
 }
 
 ```
+
 This policy allows public read access to all objects in your bucket.
 
 ## Step 3: Running the Application
 After setting up the environment variables, navigate to the project directory and run the application:
 
-```
+```sh
 docker-compose up --build
 ```
+
 Your Flask application should now be running, and you can access it through the EC2 instance's public IP address.
 
 ## Step 5: Accessing the Image
