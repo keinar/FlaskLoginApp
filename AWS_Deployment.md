@@ -50,10 +50,10 @@ sudo yum install git -y
 
 ```sh
 # Clone your repository
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/keinar/FlaskLoginApp.git
 
 # Navigate to the project directory
-cd your-repo
+cd FlaskLoginApp
 
 # Build and run the application using Docker Compose
 docker-compose up --build
