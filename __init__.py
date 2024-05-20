@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, render_template, redirect, url_for, flash, Response,session
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 # Corrected import statement
 from forms import LoginForm, RegistrationForm
@@ -103,14 +103,14 @@ def image():
     s3 = boto3.client('s3')
     bucket_name = "test-keinar"
     image_file = "me.png"
-    image_object = s3.get_object(Bucket=bucket_name, Key=image_file)
-    return Response(
-        image_object['Body'].read(),
-        mimetype='image/png',
-        headers={
-            "Content-Disposition": "inline; filename={}".format(image_file)
-        }
-    )
+    
+    # Generate a pre-signed URL for the S3 object
+    image_url = s3.generate_presigned_url('get_object',
+                                          Params={'Bucket': bucket_name, 'Key': image_file},
+                                          ExpiresIn=3600)  # URL expires in 1 hour
+
+    # Render the template and pass the pre-signed URL
+    return render_template('image.html', image_url=image_url, current_user=current_user)
 
 # Test route to trigger flash message
 @app.route('/test_flash')

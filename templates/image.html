@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Display</title>
-    <!-- Add link to CSS stylesheet if needed -->
 </head>
 <body>
-    <h1>Welcome!</h1>
+    <h1>Welcome {{ current_user.username }}!</h1>
     <p>Here is the image you wanted to see:</p>
-    <!-- Replace 'placeholder-image.jpg' with the actual path to the image you want to display -->
-    <img src="{{image_url}}" alt="Descriptive Alt Text">
-    <!-- Add navigation links or buttons as needed -->
+    <img src="{{ image_url }}" alt="Descriptive Alt Text">
+
     <a href="{{ url_for('home') }}">Back to Dashboard</a>
 </body>
 </html>
