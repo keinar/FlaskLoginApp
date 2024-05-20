@@ -109,6 +109,8 @@ def image():
                                             Params={'Bucket': bucket_name, 'Key': image_file},
                                             ExpiresIn=3600 * 24)  # URL expires in 24 hours
 
+        app.logger.info(f'Generated pre-signed URL: {image_url}')  # Log the pre-signed URL
+
         # Render the template and pass the pre-signed URL
         return render_template('image.html', image_url=image_url, current_user=current_user)
     except Exception as e:
