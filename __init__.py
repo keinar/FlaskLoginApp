@@ -101,6 +101,17 @@ def logout():
 @login_required
 def image():
     try:
+        image_url = url_for('serve_image')
+        return render_template('image.html', image_url=image_url)
+    except Exception as e:
+        app.logger.error(f'Error preparing image URL: {e}')
+        return Response('Internal Server Error', status=500)
+
+
+@app.route('/serve_image')
+@login_required
+def serve_image():
+    try:
         s3 = boto3.client('s3')
         bucket_name = "test-keinar"
         image_file = "me.png"
