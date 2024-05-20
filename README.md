@@ -76,7 +76,7 @@ The database initialization is automated through the `entrypoint.sh` script. Whe
 Once the application is running, you can register a new user and log in using the UI provided at the home page.
 
 ## Deployment Instructions
-For detailed instructions on how to deploy this application on an EC2 instance, including setting up Docker, Docker Compose, and configuring S3, refer to the [AWS_Deployment.md](Deployment Instructions).
+For detailed instructions on how to deploy this application on an EC2 instance, including setting up Docker, Docker Compose, and configuring S3, refer to the [AWS_Deployment.md](Deployment-Instructions).
 
 ## Contributing
 
