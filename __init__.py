@@ -100,18 +100,22 @@ def logout():
 @app.route('/image')
 @login_required
 def image():
-    s3 = boto3.client('s3')
-    bucket_name = "test-keinar"
-    image_file = "me.png"
-    image_object = s3.get_object(Bucket=bucket_name, Key=image_file)
-    return Response(
-        image_object['Body'].read(),
-        mimetype='image/png',
-        headers={
-            "Content-Disposition": "inline; filename={}".format(image_file)
-        }
-    )
-
+    try:
+        s3 = boto3.client('s3')
+        bucket_name = "test-keinar"
+        image_file = "me.png"
+        image_object = s3.get_object(Bucket=bucket_name, Key=image_file)
+        return Response(
+            image_object['Body'].read(),
+            mimetype='image/png',
+            headers={
+                "Content-Disposition": "inline; filename={}".format(image_file)
+            }
+        )
+    except Exception as e:
+        app.logger.error(f'Error fetching image from S3: {e}')
+        return Response('Internal Server Error', status=500)
+        
 # Test route to trigger flash message
 @app.route('/test_flash')
 def test_flash():
