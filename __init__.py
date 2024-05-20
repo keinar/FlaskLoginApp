@@ -100,17 +100,21 @@ def logout():
 @app.route('/image')
 @login_required
 def image():
-    s3 = boto3.client('s3')
-    bucket_name = "test-keinar"
-    image_file = "me.png"
-    
-    # Generate a pre-signed URL for the S3 object
-    image_url = s3.generate_presigned_url('get_object',
-                                          Params={'Bucket': bucket_name, 'Key': image_file},
-                                          ExpiresIn=3600)  # URL expires in 1 hour
+    try:
+        s3 = boto3.client('s3')
+        bucket_name = "test-keinar"
+        image_file = "me.png"
+        
+        # Generate a pre-signed URL for the S3 object
+        image_url = s3.generate_presigned_url('get_object',
+                                            Params={'Bucket': bucket_name, 'Key': image_file},
+                                            ExpiresIn=3600)  # URL expires in 1 hour
 
-    # Render the template and pass the pre-signed URL
-    return render_template('image.html', image_url=image_url, current_user=current_user)
+        # Render the template and pass the pre-signed URL
+        return render_template('image.html', image_url=image_url, current_user=current_user)
+    except Exception as e:
+        app.logger.error(f'Error fetching image from S3: {e}')
+        return Response('Internal Server Error', status=500)
 
 # Test route to trigger flash message
 @app.route('/test_flash')
