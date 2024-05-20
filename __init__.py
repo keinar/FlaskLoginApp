@@ -7,6 +7,7 @@ from forms import LoginForm, RegistrationForm  # Corrected import statement
 from flask_migrate import Migrate
 import os
 import boto3
+import io
 
 # Initialize the Flask application
 app = Flask(__name__)
