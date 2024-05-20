@@ -1,5 +1,5 @@
 import logging
-from flask import Flask, render_template, redirect, url_for, flash, Response, session
+from flask import Flask, render_template, redirect, url_for, flash, Response, session, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -104,15 +104,12 @@ def image():
         bucket_name = "test-keinar"
         image_file = "me.png"
         
-        # Generate a pre-signed URL for the S3 object
-        image_url = s3.generate_presigned_url('get_object',
-                                            Params={'Bucket': bucket_name, 'Key': image_file},
-                                            ExpiresIn=3600 * 24)  # URL expires in 24 hours
+        # Fetch the image from S3
+        image_object = s3.get_object(Bucket=bucket_name, Key=image_file)
+        image_content = image_object['Body'].read()
 
-        app.logger.info(f'Generated pre-signed URL: {image_url}')  # Log the pre-signed URL
-
-        # Render the template and pass the pre-signed URL
-        return render_template('image.html', image_url=image_url, current_user=current_user)
+        # Serve the image directly
+        return send_file(io.BytesIO(image_content), mimetype='image/png', as_attachment=False, attachment_filename=image_file)
     except Exception as e:
         app.logger.error(f'Error fetching image from S3: {e}')
         return Response('Internal Server Error', status=500)
