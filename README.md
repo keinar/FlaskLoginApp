@@ -1,6 +1,19 @@
 # Flask Login App
 
-This is a simple Flask application with user authentication, a home page, and database integration, all containerized with Docker for easy setup and deployment.
+This repository contains the source code for the Flask application. Below you will find the instructions for setting up the application and additional resources.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+- [Deployment Instructions](#deployment-instructions)
+- [Contributing](#contributing)
+- [License](#license)
+
+
+## Overview
+
+This project is a Flask-based web application that includes user authentication, image fetching from AWS S3, and other features.
 
 ## Getting Started
 
@@ -61,6 +74,9 @@ The database initialization is automated through the `entrypoint.sh` script. Whe
 ## Usage
 
 Once the application is running, you can register a new user and log in using the UI provided at the home page.
+
+## Deployment Instructions
+For detailed instructions on how to deploy this application on an EC2 instance, including setting up Docker, Docker Compose, and configuring S3, refer to the [AWS_Deployment.md](Deployment Instructions).
 
 ## Contributing
 
