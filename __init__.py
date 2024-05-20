@@ -107,7 +107,7 @@ def image():
         # Generate a pre-signed URL for the S3 object
         image_url = s3.generate_presigned_url('get_object',
                                             Params={'Bucket': bucket_name, 'Key': image_file},
-                                            ExpiresIn=3600)  # URL expires in 1 hour
+                                            ExpiresIn=3600 * 24)  # URL expires in 24 hours
 
         # Render the template and pass the pre-signed URL
         return render_template('image.html', image_url=image_url, current_user=current_user)
