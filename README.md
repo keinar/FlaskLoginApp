@@ -54,6 +54,10 @@ The application will be available at `http://localhost:5001`.
 Before running the application, you need to set the following environment variables:
 
 - `SECRET_KEY`: A secret key for your application. This is used to keep the client-side sessions secure. Make sure this is set to a random string.
+- to create one you can you the command:
+```
+openssl rand -hex 32
+```
 
 For example, you can set the `SECRET_KEY` on your system like this:
 
