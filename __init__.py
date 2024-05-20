@@ -1,10 +1,9 @@
 import logging
-from flask import Flask, render_template, redirect, url_for, flash, Response,session
+from flask import Flask, render_template, redirect, url_for, flash, Response, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-# Corrected import statement
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm  # Corrected import statement
 from flask_migrate import Migrate
 import os
 import boto3
